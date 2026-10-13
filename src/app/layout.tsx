@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/manrope";
 import "./globals.css";
 import { company } from "@/content/site";
+import { demo } from "@/lib/config";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
   title: { default: `${company.name} — ИИ-инфраструктура, аренда GPU-серверов и поставка оборудования`, template: `%s — ${company.name}` },
   description: "Предоставляем GPU-серверы в аренду, поставляем оборудование из Китая, выполняем настройку и сопровождаем эксплуатацию. Обсудите задачу с инженерами.",
+  // The demo shows unconfirmed placeholders: keep it out of search results.
+  robots: demo ? { index: false, follow: false } : undefined,
   openGraph: { type: "website", locale: "ru_RU", siteName: company.name },
 };
 

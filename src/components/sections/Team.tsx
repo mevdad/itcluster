@@ -1,4 +1,6 @@
-import { specialists } from "@/content/site";
+import { specialistsView } from "@/content/site";
+import { asset } from "@/lib/config";
+import { DemoNote } from "../DemoNote";
 import { Cpu, Truck, Wrench } from "../icons";
 import { Illustration } from "../Illustration";
 import { Section, SectionHeading } from "../Section";
@@ -41,19 +43,31 @@ export function Team({ tone }: { tone: Tone }) {
         </div>
       </div>
 
-      {specialists.length > 0 && (
-        <ul className="reveal mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {specialists.map((p) => (
-            <li key={p.name} className="card overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.portrait} alt={`${p.name}, ${p.role}`} width={600} height={720} loading="lazy" className="aspect-[5/6] w-full object-cover" />
-              <div className="p-4">
-                <p className="font-bold">{p.name}</p>
-                <p className="text-sm text-muted">{p.role}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+      {specialistsView.items.length > 0 && (
+        <div className="reveal mt-12">
+          {specialistsView.draft && <DemoNote className="mb-4">карточки ответственных специалистов — заглушки, без реальных людей и фото</DemoNote>}
+          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {specialistsView.items.map((p, i) => (
+              <li key={`${p.name}-${i}`} className="card overflow-hidden">
+                {p.portrait ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={asset(p.portrait)} alt={`${p.name}, ${p.role}`} width={600} height={720} loading="lazy" className="aspect-[5/6] w-full object-cover" />
+                ) : (
+                  <div aria-hidden="true" className="flex aspect-[5/6] w-full items-end justify-center bg-linear-to-b from-fog-100 to-fog-200">
+                    <svg viewBox="0 0 120 120" className="w-2/3 text-fog-300" fill="currentColor">
+                      <circle cx="60" cy="42" r="22" />
+                      <path d="M12 120c0-26 21-44 48-44s48 18 48 44Z" />
+                    </svg>
+                  </div>
+                )}
+                <div className="p-4">
+                  <p className="font-bold">{p.name}</p>
+                  <p className="text-sm text-muted">{p.role}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </Section>
   );

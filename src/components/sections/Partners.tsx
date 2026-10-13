@@ -1,4 +1,5 @@
 import { confirmed } from "@/content/site";
+import { DemoNote } from "../DemoNote";
 import { DirectionLink } from "../DirectionLink";
 import { Illustration } from "../Illustration";
 import { Section } from "../Section";
@@ -9,6 +10,7 @@ export function Partners({ tone }: { tone: Tone }) {
     <Section id="partners" tone={tone} labelledBy="partners-title">
       <div className="reveal grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-6">
         <div className="flex flex-col items-start gap-5 lg:col-span-7">
+          <DemoNote>строка про проекты расширения включена для показа и не подтверждена</DemoNote>
           <h2 id="partners-title" className="h-section">
             Партнёрам
           </h2>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { company, contacts, navItems } from "@/content/site";
+import { company, contacts, navItems, requisitesView } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Политика обработки данных",
@@ -23,7 +23,7 @@ export default function PrivacyPage() {
               <h2 className="h-card text-ink">Оператор</h2>
               <p className="mt-2">
                 {company.name}.{" "}
-                {company.requisites ? company.requisites.lines.join(", ") : "Полное наименование и реквизиты оператора будут указаны здесь после подтверждения."}
+                {requisitesView ? requisitesView.lines.join(", ") : "Полное наименование и реквизиты оператора будут указаны здесь после подтверждения."}
               </p>
             </section>
             <section>

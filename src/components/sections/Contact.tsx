@@ -1,4 +1,4 @@
-import { contacts, phoneHref } from "@/content/site";
+import { contacts, demoContactPlaceholders, phoneHref } from "@/content/site";
 import { LeadForm } from "../LeadForm";
 import { Mail, Phone } from "../icons";
 import { Section, SectionHeading } from "../Section";
@@ -33,7 +33,23 @@ export function Contact({ tone }: { tone: Tone }) {
                 {contacts.phone}
               </a>
             )}
-            {!hasContacts && <p className="text-muted">Основной способ связи — форма: опишите задачу, и мы свяжемся с вами по указанным контактам.</p>}
+            {demoContactPlaceholders && (
+              <>
+                <p className="inline-flex min-h-12 items-center gap-3 font-semibold text-muted">
+                  <span className="flex size-10 items-center justify-center rounded-full bg-accent-50 text-accent-600">
+                    <Mail className="size-5" />
+                  </span>
+                  {demoContactPlaceholders.email}
+                </p>
+                <p className="inline-flex min-h-12 items-center gap-3 font-semibold text-muted">
+                  <span className="flex size-10 items-center justify-center rounded-full bg-accent-50 text-accent-600">
+                    <Phone className="size-5" />
+                  </span>
+                  {demoContactPlaceholders.phone}
+                </p>
+              </>
+            )}
+            {!hasContacts && !demoContactPlaceholders && <p className="text-muted">Основной способ связи — форма: опишите задачу, и мы свяжемся с вами по указанным контактам.</p>}
           </div>
         </div>
         <div className="reveal lg:col-span-7">

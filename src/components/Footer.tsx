@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { company, contacts, phoneHref } from "@/content/site";
+import { company, contacts, demoContactPlaceholders, phoneHref, requisitesView } from "@/content/site";
 import { Logo } from "./Logo";
 
 const SERVICE_LINKS = [
@@ -48,6 +48,12 @@ export function Footer() {
                   </a>
                 </li>
               )}
+              {demoContactPlaceholders && (
+                <>
+                  <li className="inline-flex min-h-11 items-center">{demoContactPlaceholders.email}</li>
+                  <li className="inline-flex min-h-11 items-center">{demoContactPlaceholders.phone}</li>
+                </>
+              )}
               <li>
                 <Link href="/#contact" className="inline-flex min-h-11 items-center hover:text-white">
                   Форма обращения
@@ -57,9 +63,9 @@ export function Footer() {
           </div>
           <div id="requisites" className="scroll-mt-24">
             <h2 className="text-sm font-bold text-white">Реквизиты</h2>
-            {company.requisites ? (
+            {requisitesView ? (
               <ul className="mt-3 flex flex-col gap-1 text-[15px] text-on-dark-muted">
-                {company.requisites.lines.map((line) => (
+                {requisitesView.lines.map((line) => (
                   <li key={line}>{line}</li>
                 ))}
               </ul>

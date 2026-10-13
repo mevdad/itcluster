@@ -11,6 +11,10 @@ npm run dev                  # http://localhost:3000
 npm run build && npm start   # прод
 ```
 
+## GitHub Pages и демо
+
+`npm run build:pages` собирает статику в `out/`; приём заявок тогда переезжает на Cloudflare Worker (`workers/lead`), а `DEMO=1` показывает все блоки с заглушками. Пошаговая инструкция — [`docs/DEPLOY-PAGES.md`](docs/DEPLOY-PAGES.md).
+
 ## Приём заявок
 
 `POST /api/lead` валидирует форму (на клиенте и на сервере), проверяет origin, ограничивает частоту обращений и доставляет заявку в настроенные каналы:
@@ -32,6 +36,8 @@ src/components/          секции (sections/), форма, шапка, ил�
 src/content/site.ts      все факты о компании — выключены, пока не подтверждены
 src/content/images.generated.ts   реестр изображений (генерируется)
 src/lib/ , src/server/   схема формы, доставка заявок, rate limit
+workers/lead/            Cloudflare Worker для приёма заявок на статическом хостинге
+scripts/build-pages.mjs  статический экспорт для GitHub Pages
 tools/images/            генератор 18 иллюстраций (Python, без зависимостей)
 docs/                    DESIGN.md, IMAGES.md, CONTENT-TODO.md
 ```

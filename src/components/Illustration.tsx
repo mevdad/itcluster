@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { images } from "@/content/images.generated";
+import { asset } from "@/lib/config";
 
 type Illustrated = { [K in keyof typeof images]: (typeof images)[K]["desktop"] extends null ? never : K }[keyof typeof images];
 export type ImageId = Illustrated;
@@ -30,9 +31,9 @@ export function Illustration({ id, priority = false, badge, className = "" }: Pr
   return (
     <div className={`illu ${className}`} style={style}>
       <picture>
-        {mobile.src !== desktop.src && <source media="(max-width: 767px)" srcSet={mobile.src} />}
+        {mobile.src !== desktop.src && <source media="(max-width: 767px)" srcSet={asset(mobile.src)} />}
         <img
-          src={desktop.src}
+          src={asset(desktop.src)}
           alt={entry.alt}
           width={desktop.width}
           height={desktop.height}

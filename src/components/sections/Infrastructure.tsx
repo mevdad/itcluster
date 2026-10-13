@@ -1,5 +1,6 @@
 import { confirmed, sites, specs } from "@/content/site";
 import { ArrowRight, Check, Pin } from "../icons";
+import { DemoNote } from "../DemoNote";
 import { DirectionLink } from "../DirectionLink";
 import { Illustration } from "../Illustration";
 import { Section, SectionHeading } from "../Section";
@@ -58,6 +59,7 @@ export function Infrastructure({ tone }: { tone: Tone }) {
         {confirmed.geography ? (
           <>
             <div className="lg:col-span-6">
+              <DemoNote className="mb-3">география взята из предварительных материалов и не подтверждена</DemoNote>
               <SitesMap />
             </div>
             <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-6">

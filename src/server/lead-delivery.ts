@@ -1,4 +1,4 @@
-import { directionLabel, type LeadFields } from "@/lib/lead-schema";
+import { directionLabel, type LeadFields } from "../lib/lead-schema";
 
 export interface Lead extends Omit<LeadFields, "direction" | "consent"> {
   direction: Exclude<LeadFields["direction"], "">;
@@ -80,7 +80,9 @@ function webhookChannel(url: string, bearer: string | undefined): Channel {
   };
 }
 
-export function configuredChannels(env: NodeJS.ProcessEnv = process.env): Channel[] {
+export type Env = Readonly<Record<string, string | undefined>>;
+
+export function configuredChannels(env: Env): Channel[] {
   const channels: Channel[] = [];
   if (env.TELEGRAM_BOT_TOKEN && env.TELEGRAM_CHAT_ID) channels.push(telegramChannel(env.TELEGRAM_BOT_TOKEN, env.TELEGRAM_CHAT_ID));
   if (env.LEAD_WEBHOOK_URL) channels.push(webhookChannel(env.LEAD_WEBHOOK_URL, env.LEAD_WEBHOOK_TOKEN));
@@ -93,7 +95,7 @@ export type DeliveryOutcome =
   | { status: "delivered"; warnings: string[] };
 
 /** Delivered = at least one channel accepted the lead. Failures are logged without personal data. */
-export async function deliverLead(lead: Lead, channels: Channel[] = configuredChannels()): Promise<DeliveryOutcome> {
+export async function deliverLead(lead: Lead, channels: Channel[]): Promise<DeliveryOutcome> {
   if (channels.length === 0) return { status: "not_configured" };
   const results = await Promise.allSettled(channels.map((c) => c.send(lead)));
   const warnings: string[] = [];

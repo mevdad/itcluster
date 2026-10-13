@@ -1,4 +1,5 @@
 import { ArrowRight } from "../icons";
+import { DemoNote } from "../DemoNote";
 import { Illustration } from "../Illustration";
 
 export function Hero() {
@@ -7,6 +8,7 @@ export function Hero() {
       <div aria-hidden="true" className="pointer-events-none absolute -top-40 -left-40 size-[640px] rounded-full bg-accent-500/20 blur-[140px]" />
       <div className="container-x relative grid grid-cols-1 items-center gap-10 lg:grid-cols-[55fr_45fr] lg:gap-12">
         <div className="flex flex-col items-start gap-6 lg:pr-6">
+          <DemoNote>показаны все блоки сайта, включая неподтверждённые; данные в [скобках] — заглушки</DemoNote>
           <span className="eyebrow">Вычислительная инфраструктура и поставка оборудования</span>
           <h1 id="hero-title" className="h-hero">
             ИИ-инфраструктура для задач вашего бизнеса

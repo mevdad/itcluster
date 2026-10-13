@@ -14,14 +14,14 @@ import { Projects } from "@/components/sections/Projects";
 import { Services } from "@/components/sections/Services";
 import { Supply } from "@/components/sections/Supply";
 import { Team } from "@/components/sections/Team";
-import { navItems, projects } from "@/content/site";
+import { navItems, projectsView } from "@/content/site";
 
 // The footer shows the current year. A statically rendered page would freeze the build year, so the page is
 // regenerated once a day (ISR) instead of being forced fully dynamic.
 export const revalidate = 86400;
 
 export default function HomePage() {
-  const hasProjects = projects.length > 0;
+  const hasProjects = projectsView.items.length > 0;
   const nav = navItems.filter((item) => item.id !== "projects" || hasProjects);
 
   // Light sections alternate white / light-grey in the order they are actually rendered, so hiding the
@@ -31,7 +31,7 @@ export default function HomePage() {
     (t) => <Services key="services" tone={t} />,
     (t) => <AiSection key="ai" tone={t} />,
     (t) => <Infrastructure key="infra" tone={t} />,
-    hasProjects ? (t) => <Projects key="projects" tone={t} projects={projects} /> : null,
+    hasProjects ? (t) => <Projects key="projects" tone={t} projects={projectsView.items} draft={projectsView.draft} /> : null,
     (t) => <Supply key="supply" tone={t} />,
     (t) => <Process key="process" tone={t} />,
     (t) => <Team key="team" tone={t} />,

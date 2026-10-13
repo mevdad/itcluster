@@ -1,0 +1,11 @@
+name = "h200-lead"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Secrets are NOT stored here. Set them once:
+#   npx wrangler secret put TELEGRAM_BOT_TOKEN
+#   npx wrangler secret put TELEGRAM_CHAT_ID
+#   (and/or LEAD_WEBHOOK_URL, LEAD_WEBHOOK_TOKEN)
+[vars]
+# Origins allowed to submit the form (the site that hosts the landing). Comma-separated.
+ALLOWED_ORIGINS = "https://mevdad.github.io"

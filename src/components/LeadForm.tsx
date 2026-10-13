@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { contacts, phoneHref } from "@/content/site";
+import { leadEndpoint } from "@/lib/config";
 import { useDirectionRequest } from "@/lib/lead-direction";
 import {
   ALLOWED_FILE_EXTENSIONS,
@@ -71,11 +73,16 @@ export function LeadForm() {
       formRef.current?.querySelector<HTMLElement>(`[data-field="${firstBad}"]`)?.focus();
       return;
     }
+    if (leadEndpoint === null) {
+      // Static hosting without an intake endpoint: say so instead of pretending the lead went anywhere.
+      setStatus({ kind: "error", message: "Приём заявок через форму ещё не подключён.", fallback: true });
+      return;
+    }
     form.set("direction", direction);
     form.set("message", message);
     setStatus({ kind: "sending" });
     try {
-      const res = await fetch("/api/lead", { method: "POST", body: form });
+      const res = await fetch(leadEndpoint, { method: "POST", body: form });
       const body: LeadResponse | null = await res.json().catch(() => null);
       if (res.ok && body?.ok) {
         setStatus({ kind: "success", warnings: body.warnings });
@@ -206,9 +213,9 @@ export function LeadForm() {
           <input data-field="consent" type="checkbox" name="consent" className="mt-0.5 size-5 shrink-0 accent-accent-600" aria-invalid={!!err("consent")} aria-describedby={describe("consent")} />
           <span>
             Я согласен(на) на обработку персональных данных и ознакомлен(а) с{" "}
-            <a href="/privacy" target="_blank" rel="noopener" className="font-semibold text-accent-600 underline underline-offset-2">
+            <Link href="/privacy" target="_blank" className="font-semibold text-accent-600 underline underline-offset-2">
               политикой обработки данных
-            </a>
+            </Link>
             .
           </span>
         </label>
