@@ -53,7 +53,7 @@ export function Supply({ tone }: { tone: Tone }) {
           </DirectionLink>
         </div>
         <div className="reveal lg:col-span-6 lg:col-start-7">
-          <Illustration id="img-12" badge="Иллюстрация" className="rounded-3xl" />
+          <Illustration id="img-12" badge className="rounded-3xl" />
         </div>
       </div>
 

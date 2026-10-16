@@ -28,7 +28,7 @@ export function Hero() {
           <p className="text-sm font-medium text-on-dark-muted">Аренда вычислительных мощностей · Поставка оборудования · Инженерное сопровождение</p>
         </div>
         <div className="rounded-[1.75rem] border border-white/10 bg-graphite-800 p-2 shadow-[0_30px_80px_-30px_rgb(0_0_0/0.7)]">
-          <Illustration id="img-01" priority badge="Визуализация" className="rounded-[1.25rem]" />
+          <Illustration id="img-01" priority badge className="rounded-[1.25rem]" />
         </div>
       </div>
     </section>

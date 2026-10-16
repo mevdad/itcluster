@@ -1,11 +1,12 @@
 import { confirmed, sites } from "@/content/site";
+import { listRu } from "@/lib/ru";
 import { Plus } from "../icons";
 import { Section, SectionHeading } from "../Section";
 import type { Tone } from "../Section";
 
 function faqItems(): readonly { q: string; a: string }[] {
   const where = confirmed.geography
-    ? `Инфраструктура размещена в России: ${sites.map((s) => s.city).join(" и ")}. Конкретную площадку указываем в предложении.`
+    ? `Оборудование размещено на площадках в России: ${listRu(sites.map((s) => s.inCity))}. Конкретную площадку для вашего проекта указываем в предложении.`
     : "Инфраструктура находится в России. Конкретные площадки указываем в предложении после согласования конфигурации.";
   return [
     {

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { company, contacts, navItems, requisitesView } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Политика обработки данных",
-  robots: { index: false, follow: true },
 };
+
+// The wording is neutral on purpose: no operator details, retention periods or service names are invented here.
+// The lawyer-approved text and the operator's details are tracked in docs/CONTENT-TODO.md.
 
 export default function PrivacyPage() {
   return (
@@ -14,16 +17,13 @@ export default function PrivacyPage() {
       <Header items={navItems.filter((i) => i.id !== "projects")} />
       <main id="main" className="pt-[calc(var(--header-h)+40px)] pb-16">
         <article className="container-x max-w-3xl">
-          <p className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-900">
-            Черновик структуры. Перед публикацией сайта текст должен быть утверждён юристом компании, а данные оператора (наименование, ИНН, адрес) — внесены в блок ниже.
-          </p>
-          <h1 className="h-section mt-8">Политика обработки персональных данных</h1>
+          <h1 className="h-section">Политика обработки персональных данных</h1>
           <div className="mt-8 flex flex-col gap-6 text-ink-soft">
             <section>
               <h2 className="h-card text-ink">Оператор</h2>
               <p className="mt-2">
                 {company.name}.{" "}
-                {requisitesView ? requisitesView.lines.join(", ") : "Полное наименование и реквизиты оператора будут указаны здесь после подтверждения."}
+                {requisitesView ? requisitesView.lines.join(", ") : "Полное наименование и реквизиты оператора предоставляем по запросу."}
               </p>
             </section>
             <section>
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
             </section>
             <section>
               <h2 className="h-card text-ink">Как данные передаются</h2>
-              <p className="mt-2">Заявка передаётся сотрудникам компании через настроенный канал связи (мессенджер или система учёта обращений). Конкретные сервисы и сроки хранения должны быть указаны перед публикацией.</p>
+              <p className="mt-2">Заявка передаётся сотрудникам компании через канал приёма обращений (мессенджер или система учёта обращений). Сведения о сервисах, через которые проходит заявка, и о сроках хранения данных предоставляем по запросу.</p>
             </section>
             <section>
               <h2 className="h-card text-ink">Ваши права</h2>
@@ -51,7 +51,13 @@ export default function PrivacyPage() {
                     </a>
                   </>
                 ) : (
-                  " по контактам, указанным на сайте"
+                  <>
+                    {" "}
+                    через{" "}
+                    <Link className="font-semibold text-accent-600 underline" href="/#contact">
+                      форму обращения
+                    </Link>
+                  </>
                 )}
                 .
               </p>

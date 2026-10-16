@@ -19,7 +19,7 @@ export function Team({ tone }: { tone: Tone }) {
       <SectionHeading id="about-title" eyebrow="О компании" title="Компетенции, которые объединяют ваш проект" />
       <div className="mt-10 grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-6">
         <div className="reveal lg:col-span-5">
-          <Illustration id="img-17" badge="Иллюстрация" className="rounded-3xl" />
+          <Illustration id="img-17" badge className="rounded-3xl" />
         </div>
         <div className="reveal flex flex-col gap-5 lg:col-span-6 lg:col-start-7">
           <p className="text-lg">

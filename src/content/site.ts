@@ -1,13 +1,13 @@
 import { demo } from "@/lib/config";
+import { countRu, type IsoDate, type PluralForms } from "@/lib/ru";
 
 /**
- * Everything on this page that is a *fact about the company* lives in this file and is off by default.
- * Source materials gave preliminary numbers only; per the brief nothing unconfirmed is published.
- * To publish a fact: confirm it with the company, fill the value here, and (if it is a flag) set it to true.
- * The full checklist is in docs/CONTENT-TODO.md.
+ * Every *fact about the company* shown on the page lives in this file.
+ * Published only what the company confirmed (see docs/CONTENT-TODO.md for what is confirmed and what is still open).
+ * To publish a new fact: confirm it with the company, fill the value here, and (if it is a flag) set it to true.
  *
- * Demo build (NEXT_PUBLIC_DEMO=1) switches the hidden blocks on with clearly marked placeholders, so the whole page
- * can be reviewed. That never changes the real values below.
+ * NEXT_PUBLIC_DEMO=1 is an internal preview: it switches the still-hidden blocks on with [bracketed] placeholders.
+ * It is off by default and never changes the real values below.
  */
 
 export const company = {
@@ -21,7 +21,7 @@ export const company = {
 
 const DEMO_REQUISITES = { lines: ["[Полное наименование организации]", "ИНН [—] · ОГРН [—]", "[Юридический адрес]"] } as const;
 
-/** What the page renders: real requisites, or placeholders in the demo build. */
+/** What the page renders: real requisites, or placeholders in the internal demo build. */
 export const requisitesView: null | { lines: readonly string[] } = company.requisites ?? (demo ? DEMO_REQUISITES : null);
 
 export const contacts = {
@@ -29,7 +29,7 @@ export const contacts = {
   phone: process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || null,
 };
 
-/** Shown as plain text (not links) in the demo build while the real contacts are not set. */
+/** Shown as plain text (not links) in the internal demo build while the real contacts are not set. */
 export const demoContactPlaceholders: null | { email: string; phone: string } =
   demo && !contacts.email && !contacts.phone ? { email: "[email компании]", phone: "[+7 ··· ··· ··· ··]" } : null;
 
@@ -38,9 +38,9 @@ export function phoneHref(phone: string): string {
 }
 
 const CONFIRMED = {
-  /** Москва и Санкт-Петербург подтверждены → показываем схему и карточки площадок. */
-  geography: false,
-  /** Ищем инвестиционных партнёров → добавляем строку «Информацию о проектах расширения…». */
+  /** Москва и Санкт-Петербург — подтверждено владельцем 16.10.2026: схема, карточки площадок, факт под первым экраном, FAQ. */
+  geography: true,
+  /** Ищем инвестиционных партнёров → добавляем строку «Информацию о проектах расширения…». Не подтверждено. */
   investmentSearch: false,
 } as const;
 
@@ -49,10 +49,49 @@ export const confirmed = {
   investmentSearch: CONFIRMED.investmentSearch || demo,
 };
 
-export const sites: readonly { city: string; note: string }[] = [
-  { city: "Москва", note: "Площадка размещения оборудования" },
-  { city: "Санкт-Петербург", note: "Площадка размещения оборудования" },
+export interface Site {
+  city: string;
+  /** The city in a sentence: «в Москве». Used by the FAQ answer. */
+  inCity: string;
+  note: string;
+}
+
+/** Only what is confirmed: the cities. How many systems stand in each city is NOT confirmed — do not add it here. */
+export const sites: readonly Site[] = [
+  { city: "Москва", inCity: "в Москве", note: "Площадка размещения оборудования" },
+  { city: "Санкт-Петербург", inCity: "в Санкт-Петербурге", note: "Площадка размещения оборудования" },
 ];
+
+/* ---------------------------------------------------------------------------------------------------------------
+ * Confirmed numbers (owner, 16.10.2026). They change over time, so the page prints the date they are valid for.
+ * Change a number → the wording adapts (1 компания / 2 компании / 5 компаний). null → the item is not shown.
+ * The number of sites is not stored separately: it is sites.length, so the count and the city list cannot disagree.
+ * ------------------------------------------------------------------------------------------------------------- */
+
+/**
+ * The date the facts below are valid for. Update it whenever a number changes.
+ * A literal on purpose: new Date() would silently move the date forward on every rebuild while the numbers stay old.
+ */
+export const factsAsOf: IsoDate = "2026-10-16";
+
+export const companyFacts: {
+  /** Server systems in operation. Distribution by city, GPUs per system and the rest of the configuration are NOT confirmed. */
+  serverSystems: number | null;
+  /** GPU model. The number of GPUs is NOT confirmed. */
+  gpuModel: string | null;
+  /** Corporate clients (companies) the company has worked with. Names and logos are NOT confirmed. */
+  corporateClients: number | null;
+} = {
+  serverSystems: 10,
+  gpuModel: "NVIDIA H200",
+  corporateClients: 53,
+};
+
+export const nouns = {
+  site: { one: "площадка размещения", few: "площадки размещения", many: "площадок размещения" },
+  serverSystem: { one: "серверная система", few: "серверные системы", many: "серверных систем" },
+  company: { one: "компания", few: "компании", many: "компаний" },
+} as const satisfies Record<string, PluralForms>;
 
 export const clientIndustries = ["Финансовый сектор", "Логистика", "Ретейл", "Фармацевтика"] as const;
 
@@ -73,11 +112,25 @@ export interface Spec {
   label: string;
   /** Confirmed value. null → not published yet, the hint is shown instead. */
   value: string | null;
+  /** Shown under a confirmed value: what is still specified individually. */
+  note?: string;
+  /** Shown instead of the value while it is not confirmed. */
   hint: string;
 }
 
 export const specs: readonly Spec[] = [
-  { label: "GPU и их количество", value: null, hint: "Модель и число ускорителей указываем в предложении" },
+  {
+    label: "GPU",
+    value: companyFacts.gpuModel,
+    note: "Количество указываем в предложении",
+    hint: "Модель и число ускорителей указываем в предложении",
+  },
+  {
+    label: "Парк оборудования",
+    value: companyFacts.serverSystems === null ? null : countRu(companyFacts.serverSystems, nouns.serverSystem),
+    note: "Конфигурацию под задачу фиксируем в предложении",
+    hint: "Состав оборудования указываем в предложении",
+  },
   { label: "Процессоры", value: null, hint: "Указываем для выбранной конфигурации" },
   { label: "Оперативная память", value: null, hint: "Указываем для выбранной конфигурации" },
   { label: "Накопители", value: null, hint: "Тип и объём — в предложении" },
@@ -98,10 +151,10 @@ export interface Project {
   href?: string;
 }
 
-/** Only fill this with facts the client has approved for publication. Empty → the section is hidden. */
+/** Only fill this with facts the client has approved for publication. Empty → the section and its menu item are hidden. */
 export const projects: readonly Project[] = [];
 
-/** Layout/wording of the three project cards (IMG-09..11). Placeholders only — never real claims. */
+/** Layout/wording of the three project cards (IMG-09..11). Placeholders only — never real claims, never public. */
 export const projectTemplates: readonly Project[] = [
   {
     industry: "[Отрасль или согласованное название клиента]",
@@ -126,17 +179,17 @@ export const projectTemplates: readonly Project[] = [
   },
 ];
 
-/** Real projects when they exist; otherwise the templates in the demo build; otherwise nothing (section hidden). */
+/** Real projects when they exist; otherwise the templates in the internal demo build; otherwise nothing (section hidden). */
 export const projectsView: { items: readonly Project[]; draft: boolean } = projects.length > 0 ? { items: projects, draft: false } : demo ? { items: projectTemplates, draft: true } : { items: [], draft: false };
 
 export interface Specialist {
   name: string;
   role: string;
-  /** Path under public/. null → draft placeholder without a photo (demo build only). */
+  /** Path under public/. null → draft placeholder without a photo (internal demo build only). */
   portrait: string | null;
 }
 
-/** Real people with real portraits only. */
+/** Real people with real portraits only. Empty → the block is hidden. */
 export const specialists: readonly Specialist[] = [];
 
 export const specialistsView: { items: readonly Specialist[]; draft: boolean } =

@@ -20,10 +20,13 @@ import { ArrowRight, Check, Upload } from "./icons";
 
 // The submit state is a discriminated union, not three booleans: "success" can only be reached after the
 // server confirmed delivery, so the page can never show a success message for a lead that was not sent.
+// "unavailable" is separate from "error": intake is simply not connected yet (no endpoint, or no delivery channel
+// on the server). That is not the visitor's fault and not a crash, so it gets a calm notice instead of a red alert.
 type Status =
   | { kind: "idle" }
   | { kind: "sending" }
   | { kind: "success"; warnings: readonly string[] }
+  | { kind: "unavailable" }
   | { kind: "error"; message: string; fallback: boolean };
 
 const FIELD_ORDER: readonly FieldKey[] = ["name", "contact", "direction", "message", "file", "consent"];
@@ -75,7 +78,7 @@ export function LeadForm() {
     }
     if (leadEndpoint === null) {
       // Static hosting without an intake endpoint: say so instead of pretending the lead went anywhere.
-      setStatus({ kind: "error", message: "Приём заявок через форму ещё не подключён.", fallback: true });
+      setStatus({ kind: "unavailable" });
       return;
     }
     form.set("direction", direction);
@@ -90,6 +93,10 @@ export function LeadForm() {
         setDirection("");
         setMessage("");
         setFileName(null);
+        return;
+      }
+      if (body && !body.ok && body.code === "not_configured") {
+        setStatus({ kind: "unavailable" });
         return;
       }
       if (body && !body.ok && body.code === "validation") {
@@ -226,24 +233,25 @@ export function LeadForm() {
         )}
       </div>
 
+      {status.kind === "unavailable" && (
+        <div role="alert" className="rounded-2xl bg-accent-50 p-4 text-sm text-ink-soft">
+          <p className="font-semibold text-ink">Отправка заявок через сайт пока не подключена.</p>
+          {hasDirectContacts ? (
+            <p className="mt-1">
+              Пожалуйста, свяжитесь с нами напрямую: <DirectContacts />. Текст, который вы ввели, остался в форме, его можно скопировать.
+            </p>
+          ) : (
+            <p className="mt-1">Текст, который вы ввели, остался в форме. Пожалуйста, попробуйте отправить его позже. Приносим извинения за неудобство.</p>
+          )}
+        </div>
+      )}
+
       {status.kind === "error" && (
         <div role="alert" className="rounded-2xl border border-danger/30 bg-red-50 p-4 text-sm text-red-900">
           <p className="font-semibold">Заявка не отправлена. {status.message}</p>
-          {status.fallback && (contacts.email || contacts.phone) && (
+          {status.fallback && hasDirectContacts && (
             <p className="mt-1">
-              Свяжитесь с нами напрямую:{" "}
-              {contacts.email && (
-                <a className="font-semibold underline" href={`mailto:${contacts.email}`}>
-                  {contacts.email}
-                </a>
-              )}
-              {contacts.email && contacts.phone && ", "}
-              {contacts.phone && (
-                <a className="font-semibold underline" href={phoneHref(contacts.phone)}>
-                  {contacts.phone}
-                </a>
-              )}
-              .
+              Свяжитесь с нами напрямую: <DirectContacts />.
             </p>
           )}
         </div>
@@ -254,6 +262,27 @@ export function LeadForm() {
         {!sending && <ArrowRight className="size-5" />}
       </button>
     </form>
+  );
+}
+
+const hasDirectContacts = Boolean(contacts.email || contacts.phone);
+
+/** Email and/or phone from NEXT_PUBLIC_CONTACT_* as links, joined by a comma. Renders nothing when neither is set. */
+function DirectContacts() {
+  return (
+    <>
+      {contacts.email && (
+        <a className="font-semibold underline" href={`mailto:${contacts.email}`}>
+          {contacts.email}
+        </a>
+      )}
+      {contacts.email && contacts.phone && ", "}
+      {contacts.phone && (
+        <a className="font-semibold underline" href={phoneHref(contacts.phone)}>
+          {contacts.phone}
+        </a>
+      )}
+    </>
   );
 }
 

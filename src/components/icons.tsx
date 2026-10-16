@@ -96,6 +96,12 @@ export const Pin = (p: IconProps) => (
     <circle cx="12" cy="10" r="2.5" />
   </Svg>
 );
+export const Building = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16M15 9h4a1 1 0 0 1 1 1v11M3 21h18" />
+    <path d="M8 8h3M8 12h3M8 16h3" />
+  </Svg>
+);
 export const Mail = (p: IconProps) => (
   <Svg {...p}>
     <rect x="3" y="5" width="18" height="14" rx="2" />

@@ -32,7 +32,7 @@ export function Process({ tone }: { tone: Tone }) {
       </ol>
 
       <div className="reveal card mt-12 grid grid-cols-1 items-center gap-6 p-3 sm:p-4 lg:grid-cols-2 lg:gap-10">
-        <Illustration id="img-16" badge="Иллюстрация" className="rounded-2xl" />
+        <Illustration id="img-16" badge className="rounded-2xl" />
         <div className="flex flex-col gap-5 p-3 lg:py-6 lg:pr-8">
           <h3 className="text-2xl font-bold tracking-tight sm:text-3xl">После запуска остаёмся на связи</h3>
           <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">

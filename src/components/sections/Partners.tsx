@@ -28,7 +28,7 @@ export function Partners({ tone }: { tone: Tone }) {
           </div>
         </div>
         <div className="lg:col-span-4 lg:col-start-9">
-          <Illustration id="img-18" badge="Визуализация" className="rounded-3xl" />
+          <Illustration id="img-18" badge className="rounded-3xl" />
         </div>
       </div>
     </Section>

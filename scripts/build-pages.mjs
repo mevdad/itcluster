@@ -4,7 +4,8 @@
 // closed at runtime). They are moved out of the way for the duration of the build and always put back.
 //
 //   npm run build:pages
-//   BASE_PATH=/itcluster DEMO=1 LEAD_ENDPOINT=https://h200-lead.<you>.workers.dev npm run build:pages
+//   BASE_PATH=/itcluster LEAD_ENDPOINT=https://h200-lead.<you>.workers.dev npm run build:pages
+//   DEMO=1 npm run build:pages   # internal preview only: also shows the hidden blocks with [placeholders], noindex
 import { spawnSync } from "node:child_process";
 import { existsSync, mkdtempSync, renameSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -22,7 +23,7 @@ const env = {
   ...process.env,
   STATIC_EXPORT: "1",
   NEXT_PUBLIC_STATIC: "1",
-  NEXT_PUBLIC_DEMO: process.env.DEMO ?? process.env.NEXT_PUBLIC_DEMO ?? "1",
+  NEXT_PUBLIC_DEMO: process.env.DEMO || process.env.NEXT_PUBLIC_DEMO || "0",
   NEXT_PUBLIC_BASE_PATH: basePath,
   NEXT_PUBLIC_LEAD_ENDPOINT: process.env.LEAD_ENDPOINT ?? process.env.NEXT_PUBLIC_LEAD_ENDPOINT ?? "",
 };

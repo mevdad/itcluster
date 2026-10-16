@@ -1,6 +1,6 @@
+import { isRealPhoto, type ImageId } from "@/content/images";
 import { confirmed, sites, specs } from "@/content/site";
 import { ArrowRight, Check, Pin } from "../icons";
-import { DemoNote } from "../DemoNote";
 import { DirectionLink } from "../DirectionLink";
 import { Illustration } from "../Illustration";
 import { Section, SectionHeading } from "../Section";
@@ -8,7 +8,9 @@ import type { Tone } from "../Section";
 import { SitesMap } from "../SitesMap";
 
 export function Infrastructure({ tone }: { tone: Tone }) {
-  const anySpecConfirmed = specs.some((s) => s.value !== null);
+  // The «Визуализация» remark in the captions disappears by itself once a real photo is set for that slot
+  // (content/image-overrides.ts). The description of the shot itself may then need rewording.
+  const drawn = (note: string, id: ImageId) => (isRealPhoto(id) ? "" : ` ${note}`);
   return (
     <Section id="infrastructure" tone={tone} labelledBy="infra-title">
       <SectionHeading
@@ -20,28 +22,35 @@ export function Infrastructure({ tone }: { tone: Tone }) {
       <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">
         <div className="reveal grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-7 lg:self-start">
           <figure className="card col-span-2 p-2.5">
-            <Illustration id="img-06" badge="Визуализация" />
-            <figcaption className="px-2 pt-2.5 pb-1 text-sm text-muted">Стойка с оборудованием целиком. Визуализация, не фотография площадки.</figcaption>
+            <Illustration id="img-06" badge />
+            <figcaption className="px-2 pt-2.5 pb-1 text-sm text-muted">Стойка с оборудованием целиком.{drawn("Визуализация, не фотография площадки.", "img-06")}</figcaption>
           </figure>
           <figure className="card p-2.5">
             <Illustration id="img-07" />
-            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Серверный узел изнутри. Визуализация.</figcaption>
+            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Серверный узел изнутри.{drawn("Визуализация.", "img-07")}</figcaption>
           </figure>
           <figure className="card p-2.5">
             <Illustration id="img-08" />
-            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Сетевая коммутация. Визуализация.</figcaption>
+            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Сетевая коммутация.{drawn("Визуализация.", "img-08")}</figcaption>
           </figure>
         </div>
 
         <div className="reveal flex flex-col gap-6 lg:col-span-5">
           <div className="card p-6 sm:p-7">
             <h3 className="h-card">Характеристики</h3>
-            {!anySpecConfirmed && <p className="mt-2 text-sm text-muted">Точную конфигурацию и актуальную доступность присылаем по запросу.</p>}
+            <p className="mt-2 text-sm text-muted">Точную конфигурацию и актуальную доступность присылаем по запросу.</p>
             <dl className="mt-4 divide-y divide-fog-200">
               {specs.map((spec) => (
                 <div key={spec.label} className="grid grid-cols-1 gap-1 py-3 sm:grid-cols-[11rem_1fr] sm:gap-4">
                   <dt className="font-semibold">{spec.label}</dt>
-                  <dd className={spec.value ? "" : "text-[15px] text-muted"}>{spec.value ?? spec.hint}</dd>
+                  {spec.value !== null ? (
+                    <dd>
+                      {spec.value}
+                      {spec.note && <span className="mt-0.5 block text-[15px] text-muted">{spec.note}</span>}
+                    </dd>
+                  ) : (
+                    <dd className="text-[15px] text-muted">{spec.hint}</dd>
+                  )}
                 </div>
               ))}
             </dl>
@@ -59,10 +68,9 @@ export function Infrastructure({ tone }: { tone: Tone }) {
         {confirmed.geography ? (
           <>
             <div className="lg:col-span-6">
-              <DemoNote className="mb-3">география взята из предварительных материалов и не подтверждена</DemoNote>
               <SitesMap />
             </div>
-            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-6">
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-6 lg:grid-cols-1">
               {sites.map((site) => (
                 <li key={site.city} className="card flex flex-col gap-2 p-6">
                   <Pin className="size-6 text-accent-600" />
