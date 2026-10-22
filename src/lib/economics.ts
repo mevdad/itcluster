@@ -52,6 +52,11 @@ export function stackResults(m: StackModel): StackResults {
 
 export type RentalUnit = "gpu" | "server" | "cluster";
 
+export interface TariffTerm {
+  label: string;
+  value: string;
+}
+
 export interface Tariff {
   id: string;
   name: string;
@@ -59,18 +64,25 @@ export interface Tariff {
   unit: RentalUnit;
   /** One neutral line about the use case. */
   fit: string;
+  /** Extra conditions shown on the card (minimum term, network, configuration). */
+  terms?: readonly TariffTerm[];
 }
 
-export interface TariffPrices {
-  hour: number;
-  day: number;
-  month: number;
+export type PeriodId = "hour" | "day" | "week" | "month";
+
+/** A billing period: pay for the whole period up front, longer periods are cheaper per hour. */
+export interface Period {
+  id: PeriodId;
+  label: string;
+  days: number;
+  /** Share taken off the full price (0.05 = −5 %). */
+  discount: number;
 }
 
-/** Linear pricing: the example has one per-GPU rate, no volume or term discounts. */
-export function tariffPrices(ratePerGpuHour: number, gpus: number, hoursPerMonth: number): TariffPrices {
-  const hour = ratePerGpuHour * gpus;
-  return { hour, day: hour * 24, month: hour * hoursPerMonth };
+/** Price of one billing period, whole rubles. The hour has no discount and is the base rate. */
+export function periodPrice(ratePerGpuHour: number, gpus: number, period: Period): number {
+  if (period.id === "hour") return ratePerGpuHour * gpus;
+  return Math.round(ratePerGpuHour * gpus * 24 * period.days * (1 - period.discount));
 }
 
 const NBSP = " ";

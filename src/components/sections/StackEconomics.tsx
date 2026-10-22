@@ -1,4 +1,5 @@
 import { gpuModel, stackModel } from "@/content/economics";
+import { Section, SectionHeading, type Tone } from "../Section";
 import { formatHours, formatNumber, formatPercent, formatRub, stackResults } from "@/lib/economics";
 
 function Kpi({ label, value, hint, accent = false }: { label: string; value: string; hint?: string; accent?: boolean }) {
@@ -11,7 +12,7 @@ function Kpi({ label, value, hint, accent = false }: { label: string; value: str
   );
 }
 
-export function StackEconomics() {
+function StackEconomicsBody() {
   const m = stackModel;
   const r = stackResults(m);
   const expenseRows: readonly [string, string][] = [
@@ -106,5 +107,41 @@ export function StackEconomics() {
         </p>
       </div>
     </div>
+  );
+}
+
+export function StackEconomics({ tone }: { tone: Tone }) {
+  return (
+    <Section id="stack-economics" tone={tone} labelledBy="stack-title">
+      <SectionHeading
+        id="stack-title"
+        eyebrow="Экономика стека"
+        title="Что стоит стек из восьми H200 и что он приносит"
+        lead="Модельный расчёт: из чего складывается стоимость, какую выручку даёт аренда по тарифу «GPU» и сколько остаётся после расходов."
+      />
+      <div className="mt-10">
+        <StackEconomicsBody />
+      </div>
+      <div className="reveal mt-8 grid grid-cols-1 gap-4 rounded-3xl bg-fog-100 p-6 text-[15px] text-ink-soft sm:p-8 md:grid-cols-2">
+        <div>
+          <h3 className="font-bold text-ink">Допущения</h3>
+          <ul className="mt-2 list-disc pl-5">
+            <li>цены закупки и ставка аренды — из примера;</li>
+            <li>скидки за неделю и месяц в расчёте не учтены;</li>
+            <li>загрузка и часы работы одинаковы весь год;</li>
+            <li>амортизация линейная, 10% в год.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="font-bold text-ink">Не учтено</h3>
+          <ul className="mt-2 list-disc pl-5">
+            <li>налоги и стоимость площадки;</li>
+            <li>персонал, простои и резервирование;</li>
+            <li>изменение курса и цен на оборудование.</li>
+          </ul>
+        </div>
+        <p className="font-semibold text-ink md:col-span-2">Расчёт модельный, не является офертой, гарантией или обещанием доходности. Результат зависит от реальной загрузки и условий.</p>
+      </div>
+    </Section>
   );
 }

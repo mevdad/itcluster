@@ -13,6 +13,8 @@ npm run build && npm start   # прод
 
 ## GitHub Pages
 
+`npm run photos` оптимизирует фото в WebP под слоты страницы (см. `docs/IMAGES.md`).
+
 `npm run build:pages` собирает боевую статику в `out/`; приём заявок тогда переезжает на Cloudflare Worker (`workers/lead`). Пока Worker не задеплоен, форма вежливо сообщает, что отправка через сайт не подключена, и не имитирует успех. `DEMO=1` — только внутренний просмотр скрытых блоков с заглушками (по умолчанию выключен). Пошаговая инструкция — [`docs/DEPLOY-PAGES.md`](docs/DEPLOY-PAGES.md).
 
 ## Приём заявок

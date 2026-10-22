@@ -1,3 +1,4 @@
+import { photoOverrides } from "./image-overrides.generated";
 import type { ImageOverride } from "./image-types";
 import type { ImageId } from "./images";
 
@@ -16,4 +17,7 @@ import type { ImageId } from "./images";
  *
  * The key type is ImageId, so a typo in the id or a missing field is a type error, not a broken page.
  */
-export const imageOverrides: Partial<Record<ImageId, ImageOverride>> = {};
+const manualOverrides: Partial<Record<ImageId, ImageOverride>> = {};
+
+/** Photos prepared by `npm run photos` first, then hand-written entries on top (a manual entry wins). */
+export const imageOverrides: Partial<Record<ImageId, ImageOverride>> = { ...photoOverrides, ...manualOverrides };

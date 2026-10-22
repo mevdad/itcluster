@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import type { Tone } from "@/components/Section";
 import { AiSection } from "@/components/sections/AiSection";
 import { Contact } from "@/components/sections/Contact";
+import { Economics } from "@/components/sections/Economics";
 import { Faq } from "@/components/sections/Faq";
 import { Facts } from "@/components/sections/Facts";
 import { Hero } from "@/components/sections/Hero";
@@ -12,9 +13,11 @@ import { Partners } from "@/components/sections/Partners";
 import { Process } from "@/components/sections/Process";
 import { Projects } from "@/components/sections/Projects";
 import { Services } from "@/components/sections/Services";
+import { StackEconomics } from "@/components/sections/StackEconomics";
 import { Supply } from "@/components/sections/Supply";
 import { Team } from "@/components/sections/Team";
 import { getNav, projectsView } from "@/content/site";
+import { economicsEnabled } from "@/lib/config";
 
 // The footer shows the current year. A statically rendered page would freeze the build year, so the page is
 // regenerated once a day (ISR) instead of being forced fully dynamic.
@@ -31,6 +34,8 @@ export default function HomePage() {
     (t) => <Services key="services" tone={t} />,
     (t) => <AiSection key="ai" tone={t} />,
     (t) => <Infrastructure key="infra" tone={t} />,
+    economicsEnabled ? (t) => <Economics key="economics" tone={t} /> : null,
+    economicsEnabled ? (t) => <StackEconomics key="stack-economics" tone={t} /> : null,
     hasProjects ? (t) => <Projects key="projects" tone={t} projects={projectsView.items} draft={projectsView.draft} /> : null,
     (t) => <Supply key="supply" tone={t} />,
     (t) => <Process key="process" tone={t} />,

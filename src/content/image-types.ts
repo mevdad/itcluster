@@ -1,4 +1,4 @@
-export type ImageStatus = "реальная фотография" | "иллюстрация" | "визуализация";
+export type ImageStatus = "реальная фотография" | "стоковое фото" | "иллюстрация" | "визуализация";
 
 /** One image file under public/: its URL path and its own pixel size. */
 export interface ImageFile {

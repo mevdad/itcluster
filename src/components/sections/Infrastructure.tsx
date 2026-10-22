@@ -1,4 +1,4 @@
-import { isRealPhoto, type ImageId } from "@/content/images";
+import { captionNote } from "@/content/images";
 import { confirmed, sites, specs } from "@/content/site";
 import { ArrowRight, Check, Pin } from "../icons";
 import { DirectionLink } from "../DirectionLink";
@@ -8,9 +8,8 @@ import type { Tone } from "../Section";
 import { SitesMap } from "../SitesMap";
 
 export function Infrastructure({ tone }: { tone: Tone }) {
-  // The «Визуализация» remark in the captions disappears by itself once a real photo is set for that slot
-  // (content/image-overrides.ts). The description of the shot itself may then need rewording.
-  const drawn = (note: string, id: ImageId) => (isRealPhoto(id) ? "" : ` ${note}`);
+  // The remark in the captions follows what the picture is: a drawing, a stock photo (not our site) or a real photo
+  // (no remark). The description of the shot itself may need rewording when a photo replaces the drawing.
   return (
     <Section id="infrastructure" tone={tone} labelledBy="infra-title">
       <SectionHeading
@@ -23,15 +22,15 @@ export function Infrastructure({ tone }: { tone: Tone }) {
         <div className="reveal grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-7 lg:self-start">
           <figure className="card col-span-2 p-2.5">
             <Illustration id="img-06" badge />
-            <figcaption className="px-2 pt-2.5 pb-1 text-sm text-muted">Стойка с оборудованием целиком.{drawn("Визуализация, не фотография площадки.", "img-06")}</figcaption>
+            <figcaption className="px-2 pt-2.5 pb-1 text-sm text-muted">Стойка с оборудованием целиком.{captionNote("img-06", "Визуализация, не фотография площадки.")}</figcaption>
           </figure>
           <figure className="card p-2.5">
             <Illustration id="img-07" />
-            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Серверный узел изнутри.{drawn("Визуализация.", "img-07")}</figcaption>
+            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Серверный узел изнутри.{captionNote("img-07", "Визуализация.")}</figcaption>
           </figure>
           <figure className="card p-2.5">
             <Illustration id="img-08" />
-            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Сетевая коммутация.{drawn("Визуализация.", "img-08")}</figcaption>
+            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Сетевая коммутация.{captionNote("img-08", "Визуализация.")}</figcaption>
           </figure>
         </div>
 

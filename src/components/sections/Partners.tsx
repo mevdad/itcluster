@@ -30,7 +30,7 @@ export function Partners({ tone }: { tone: Tone }) {
             </DirectionLink>
           </div>
           {economicsEnabled && (
-            <Link href="/economics/" className="link-arrow">
+            <Link href="/#stack-economics" className="link-arrow">
               Экономика стека и тарифы
               <ArrowRight className="size-5" />
             </Link>

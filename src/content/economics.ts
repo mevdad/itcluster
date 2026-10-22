@@ -1,4 +1,4 @@
-import type { StackModel, Tariff } from "@/lib/economics";
+import type { Period, StackModel, Tariff } from "@/lib/economics";
 import type { IsoDate } from "@/lib/ru";
 
 /**
@@ -7,8 +7,11 @@ import type { IsoDate } from "@/lib/ru";
  *
  * - Prices of the stack components were reconstructed from a screenshot whose right-hand column was cut off
  *   (only the leading digits were visible); they add up to the visible total of 9 871 800 ₽.
- * - The tariff set is illustrative: the reference site (gnode.cloud) could not be reached from the build
- *   environment, so no tariff here is copied from it.
+ * - The tariff structure follows the reference site NODE.CLOUD (gnode.cloud): per-GPU hourly rate, billing
+ *   periods hour / day / week (−5 %) / month (−10 %), and an enterprise cluster with a minimum term and a
+ *   custom configuration. Only the structure is taken; its prices and its VM specs (vCPU, RAM) are NOT used.
+ *   Our prices are the example's (300 ₽/h per H200); the periods' discounts come from the reference's page code
+ *   (its live prices come from an API that could not be reached), so they are placeholders as well.
  *
  * pricesAreExample = true prints a visible «примерные цены» note on the page. Set it to false only when all
  * numbers are real and approved for publication.
@@ -16,10 +19,7 @@ import type { IsoDate } from "@/lib/ru";
 export const pricesAreExample = true;
 
 /** Date the figures are valid for (printed on the page). A literal on purpose, like factsAsOf. */
-export const economicsAsOf: IsoDate = "2026-10-22";
-
-/** Hours billed in a rental month: 30 days × 24 h. */
-export const hoursPerMonth = 720;
+export const economicsAsOf: IsoDate = "2026-10-23";
 
 export const gpuModel = "NVIDIA H200";
 
@@ -41,10 +41,28 @@ export const stackModel: StackModel = {
   ],
 };
 
+export const periods: readonly Period[] = [
+  { id: "hour", label: "Час", days: 1 / 24, discount: 0 },
+  { id: "day", label: "Сутки", days: 1, discount: 0 },
+  { id: "week", label: "Неделя", days: 7, discount: 0.05 },
+  { id: "month", label: "Месяц", days: 30, discount: 0.1 },
+];
+
 /** Illustrative tariff ladder (see the note above). Prices are derived from stackModel.ratePerGpuHour. */
 export const tariffs: readonly Tariff[] = [
   { id: "gpu-1", name: "GPU", gpus: 1, unit: "gpu", fit: "Запуск и отладка моделей, небольшие нагрузки" },
   { id: "gpu-4", name: "GPU × 4", gpus: 4, unit: "gpu", fit: "Дообучение и инференс моделей средней величины" },
   { id: "stack-8", name: "Стек целиком", gpus: 8, unit: "server", fit: "Крупные модели на одном узле, изолированный стек" },
-  { id: "cluster-16", name: "Кластер", gpus: 16, unit: "cluster", fit: "Распределённое обучение на нескольких стеках" },
+  {
+    id: "cluster-16",
+    name: "Кластер",
+    gpus: 16,
+    unit: "cluster",
+    fit: "Распределённое обучение на нескольких стеках",
+    terms: [
+      { label: "Мин. срок", value: "3 месяца" },
+      { label: "Сеть", value: "InfiniBand" },
+      { label: "Конфигурация", value: "индивидуальная" },
+    ],
+  },
 ];

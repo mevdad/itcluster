@@ -39,11 +39,22 @@ export function resolveImage(id: ImageId): ResolvedImage {
   };
 }
 
+/**
+ * The honesty remark for a caption under a picture, chosen by what the picture really is:
+ * a drawing → the given note («Визуализация…»), a stock photo → it is not the company's site, a real photo → nothing.
+ */
+export function captionNote(id: ImageId, drawnNote: string): string {
+  const { status } = resolveImage(id);
+  if (status === "реальная фотография") return "";
+  return ` ${status === "стоковое фото" ? "Иллюстративное фото, не площадка компании." : drawnNote}`;
+}
+
 export function isRealPhoto(id: ImageId): boolean {
   return resolveImage(id).status === "реальная фотография";
 }
 
 const STATUS_LABEL: Record<Exclude<ImageStatus, "реальная фотография">, string> = {
+  "стоковое фото": "Иллюстративное фото",
   иллюстрация: "Иллюстрация",
   визуализация: "Визуализация",
 };

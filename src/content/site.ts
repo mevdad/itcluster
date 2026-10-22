@@ -105,7 +105,7 @@ export interface NavItem {
 export const navItems: readonly NavItem[] = [
   { id: "infrastructure", label: "Инфраструктура" },
   { id: "services", label: "Услуги" },
-  { id: "economics", label: "Экономика", href: "/economics/" },
+  { id: "economics", label: "Экономика" },
   { id: "projects", label: "Проекты" },
   { id: "supply", label: "Поставка оборудования" },
   { id: "about", label: "О компании" },
