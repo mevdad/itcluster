@@ -38,6 +38,8 @@ jobs:
           #   CONTACT_EMAIL / CONTACT_PHONE — public contacts
           LEAD_ENDPOINT: ${{ vars.LEAD_ENDPOINT }}
           DEMO: ${{ vars.DEMO != '' && vars.DEMO || '0' }}
+          # ECONOMICS — "1" publishes the «Экономика» page (tariffs + stack economics). Off by default: it runs on example prices.
+          NEXT_PUBLIC_ECONOMICS: ${{ vars.ECONOMICS }}
           NEXT_PUBLIC_CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
           NEXT_PUBLIC_CONTACT_PHONE: ${{ vars.CONTACT_PHONE }}
           NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io

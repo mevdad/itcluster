@@ -56,7 +56,7 @@ export function Header({ items, overHero = false }: Props) {
         <Logo />
         <nav aria-label="Основная навигация" className="hidden items-center gap-7 text-[15px] font-medium lg:flex">
           {items.map((item) => (
-            <Link key={item.id} href={`/#${item.id}`} className={dark ? "text-white/80 hover:text-white" : "text-ink-soft hover:text-accent-600"}>
+            <Link key={item.id} href={item.href ?? `/#${item.id}`} className={dark ? "text-white/80 hover:text-white" : "text-ink-soft hover:text-accent-600"}>
               {item.label}
             </Link>
           ))}
@@ -81,7 +81,7 @@ export function Header({ items, overHero = false }: Props) {
       <div id="mobile-menu" hidden={!open} className="max-h-[calc(100svh-var(--header-h))] overflow-y-auto border-t border-fog-200 bg-white text-ink lg:hidden">
         <nav aria-label="Мобильная навигация" className="container-x flex flex-col py-3">
           {items.map((item) => (
-            <Link key={item.id} href={`/#${item.id}`} onClick={close} className="flex min-h-14 items-center border-b border-fog-200 text-lg font-semibold">
+            <Link key={item.id} href={item.href ?? `/#${item.id}`} onClick={close} className="flex min-h-14 items-center border-b border-fog-200 text-lg font-semibold">
               {item.label}
             </Link>
           ))}

@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Section, SectionHeading } from "@/components/Section";
-import { navItems, projectTemplates } from "@/content/site";
+import { getNav, projectTemplates } from "@/content/site";
 
 export const metadata: Metadata = { title: "Черновик: проекты", robots: { index: false, follow: false } };
 export const dynamic = "force-dynamic";
@@ -15,7 +15,7 @@ export default function DraftProjectsPage() {
   if (process.env.NODE_ENV === "production" && process.env.SHOW_DRAFTS !== "1") notFound();
   return (
     <>
-      <Header items={navItems} />
+      <Header items={getNav()} />
       <main className="pt-(--header-h)">
         <Section tone="base" labelledBy="draft-title">
           <SectionHeading id="draft-title" eyebrow="Черновик · не публикуется" title="Как мы решаем задачи бизнеса" lead="Шаблоны карточек. Заполняются подтверждёнными данными в src/content/site.ts → projects." />

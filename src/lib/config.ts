@@ -13,6 +13,12 @@ export const isStatic = process.env.NEXT_PUBLIC_STATIC === "1";
 export const demo = process.env.NEXT_PUBLIC_DEMO === "1";
 
 /**
+ * The «Экономика» page (tariffs + stack economics) runs on example prices, so it is off until the numbers are real.
+ * Off → no page (404) and no menu item; on → NEXT_PUBLIC_ECONOMICS=1 (the Pages workflow reads the ECONOMICS variable).
+ */
+export const economicsEnabled = process.env.NEXT_PUBLIC_ECONOMICS === "1";
+
+/**
  * Where the form posts. A static site has no server of its own, so it needs an external endpoint
  * (the Cloudflare Worker in workers/lead). null → the form tells the visitor that intake is not connected.
  */

@@ -1,4 +1,4 @@
-import { demo } from "@/lib/config";
+import { demo, economicsEnabled } from "@/lib/config";
 import { countRu, type IsoDate, type PluralForms } from "@/lib/ru";
 
 /**
@@ -98,11 +98,14 @@ export const clientIndustries = ["Финансовый сектор", "Логи�
 export interface NavItem {
   id: string;
   label: string;
+  /** Separate page instead of an anchor on the landing. */
+  href?: string;
 }
 
 export const navItems: readonly NavItem[] = [
   { id: "infrastructure", label: "Инфраструктура" },
   { id: "services", label: "Услуги" },
+  { id: "economics", label: "Экономика", href: "/economics/" },
   { id: "projects", label: "Проекты" },
   { id: "supply", label: "Поставка оборудования" },
   { id: "about", label: "О компании" },
@@ -205,3 +208,8 @@ export const specialistsView: { items: readonly Specialist[]; draft: boolean } =
           draft: true,
         }
       : { items: [], draft: false };
+
+/** Menu for every page: hides «Проекты» until there are real projects and «Экономика» until its numbers are real. */
+export function getNav(): readonly NavItem[] {
+  return navItems.filter((item) => (item.id !== "projects" || projectsView.items.length > 0) && (item.id !== "economics" || economicsEnabled));
+}

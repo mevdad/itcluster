@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
-import { company, contacts, navItems, requisitesView } from "@/content/site";
+import { company, contacts, getNav, requisitesView } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Политика обработки данных",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <>
-      <Header items={navItems.filter((i) => i.id !== "projects")} />
+      <Header items={getNav()} />
       <main id="main" className="pt-[calc(var(--header-h)+40px)] pb-16">
         <article className="container-x max-w-3xl">
           <h1 className="h-section">Политика обработки персональных данных</h1>
