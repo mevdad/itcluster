@@ -9,7 +9,6 @@ import { Faq } from "@/components/sections/Faq";
 import { Facts } from "@/components/sections/Facts";
 import { Hero } from "@/components/sections/Hero";
 import { Infrastructure } from "@/components/sections/Infrastructure";
-import { Partners } from "@/components/sections/Partners";
 import { Process } from "@/components/sections/Process";
 import { Projects } from "@/components/sections/Projects";
 import { Services } from "@/components/sections/Services";
@@ -42,7 +41,6 @@ export default function HomePage() {
     (t) => <Team key="team" tone={t} />,
     (t) => <Faq key="faq" tone={t} />,
     (t) => <Contact key="contact" tone={t} />,
-    (t) => <Partners key="partners" tone={t} />,
   ];
   let light = 0;
   const rendered: ReactElement[] = [];

@@ -84,11 +84,6 @@ export function Footer() {
                 Политика обработки данных
               </Link>
             </li>
-            <li>
-              <Link href="/#partners" className="inline-flex min-h-11 items-center hover:text-white">
-                Партнёрам
-              </Link>
-            </li>
           </ul>
         </div>
       </div>

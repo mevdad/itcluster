@@ -40,13 +40,10 @@ export function phoneHref(phone: string): string {
 const CONFIRMED = {
   /** Москва и Санкт-Петербург — подтверждено владельцем 16.10.2026: схема, карточки площадок, факт под первым экраном, FAQ. */
   geography: true,
-  /** Ищем инвестиционных партнёров → добавляем строку «Информацию о проектах расширения…». Не подтверждено. */
-  investmentSearch: false,
 } as const;
 
 export const confirmed = {
   geography: CONFIRMED.geography || demo,
-  investmentSearch: CONFIRMED.investmentSearch || demo,
 };
 
 export interface Site {
