@@ -1,10 +1,7 @@
 import { confirmed } from "@/content/site";
-import Link from "next/link";
-import { economicsEnabled } from "@/lib/config";
 import { DemoNote } from "../DemoNote";
 import { DirectionLink } from "../DirectionLink";
 import { Illustration } from "../Illustration";
-import { ArrowRight } from "../icons";
 import { Section } from "../Section";
 import type { Tone } from "../Section";
 
@@ -29,12 +26,6 @@ export function Partners({ tone }: { tone: Tone }) {
               Запросить материалы о развитии
             </DirectionLink>
           </div>
-          {economicsEnabled && (
-            <Link href="/#stack-economics" className="link-arrow">
-              Экономика стека и тарифы
-              <ArrowRight className="size-5" />
-            </Link>
-          )}
         </div>
         <div className="lg:col-span-4 lg:col-start-9">
           <Illustration id="img-18" badge className="rounded-3xl" />
