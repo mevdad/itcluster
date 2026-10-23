@@ -1,4 +1,4 @@
-import { sites } from "@/content/site";
+import { showImageLabels, sites } from "@/content/site";
 import { Pin } from "./icons";
 
 // Schematic (not geographic) map: only the relative position of the two cities matters.
@@ -28,10 +28,12 @@ export function SitesMap() {
           </g>
         ))}
       </svg>
-      <p className="mt-3 flex items-center gap-2 text-sm text-muted">
-        <Pin className="size-4 text-accent-600" />
-        Схема, не карта: показано только расположение площадок.
-      </p>
+      {showImageLabels && (
+        <p className="mt-3 flex items-center gap-2 text-sm text-muted">
+          <Pin className="size-4 text-accent-600" />
+          Схема, не карта: показано только расположение площадок.
+        </p>
+      )}
     </div>
   );
 }

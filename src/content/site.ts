@@ -93,6 +93,14 @@ export const nouns = {
   company: { one: "компания", few: "компании", many: "компаний" },
 } as const satisfies Record<string, PluralForms>;
 
+/**
+ * Labels on pictures and the map: «Иллюстрация» / «Визуализация» / «Иллюстративное фото», the remarks under the
+ * infrastructure gallery and «Схема, не карта». The owner turned them off on 2026-10-23.
+ * Set to true to bring all of them back at once (the original brief asked for them wherever a picture is not a photo
+ * of the company's own site, so that a stock photo or a drawing is not taken for the company's data centre).
+ */
+export const showImageLabels = false;
+
 export const clientIndustries = ["Финансовый сектор", "Логистика", "Ретейл", "Фармацевтика"] as const;
 
 export interface NavItem {

@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { resolveImage, statusLabel, type ImageId } from "@/content/images";
+import { showImageLabels } from "@/content/site";
 import { asset } from "@/lib/config";
 
 export type { ImageId };
@@ -28,7 +29,7 @@ export function Illustration({ id, priority = false, badge = false, className = 
   const image = resolveImage(id);
   const { desktop, mobile } = image;
   const style: RatioVars = { "--ar-d": image.ratio.desktop, "--ar-m": image.ratio.mobile };
-  const label = badge ? statusLabel(image.status) : null;
+  const label = badge && showImageLabels ? statusLabel(image.status) : null;
   return (
     <div className={`illu ${className}`} style={style}>
       <picture>

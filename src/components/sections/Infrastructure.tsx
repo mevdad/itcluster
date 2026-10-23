@@ -22,11 +22,11 @@ export function Infrastructure({ tone }: { tone: Tone }) {
         <div className="reveal grid grid-cols-2 gap-3 sm:gap-4 lg:col-span-7 lg:self-start">
           <figure className="card col-span-2 p-2.5">
             <Illustration id="img-06" badge />
-            <figcaption className="px-2 pt-2.5 pb-1 text-sm text-muted">Стойка с оборудованием целиком.{captionNote("img-06", "Визуализация, не фотография площадки.")}</figcaption>
+            <figcaption className="px-2 pt-2.5 pb-1 text-sm text-muted">Стойки с оборудованием.{captionNote("img-06", "Визуализация, не фотография площадки.")}</figcaption>
           </figure>
           <figure className="card p-2.5">
             <Illustration id="img-07" />
-            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Серверный узел изнутри.{captionNote("img-07", "Визуализация.")}</figcaption>
+            <figcaption className="px-1 pt-2.5 pb-1 text-sm text-muted">Серверный модуль.{captionNote("img-07", "Визуализация.")}</figcaption>
           </figure>
           <figure className="card p-2.5">
             <Illustration id="img-08" />

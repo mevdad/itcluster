@@ -1,3 +1,4 @@
+import { showImageLabels } from "./site";
 import { imageOverrides } from "./image-overrides";
 import type { ImageFile, ImageStatus } from "./image-types";
 import { images } from "./images.generated";
@@ -44,6 +45,7 @@ export function resolveImage(id: ImageId): ResolvedImage {
  * a drawing → the given note («Визуализация…»), a stock photo → it is not the company's site, a real photo → nothing.
  */
 export function captionNote(id: ImageId, drawnNote: string): string {
+  if (!showImageLabels) return "";
   const { status } = resolveImage(id);
   if (status === "реальная фотография") return "";
   return ` ${status === "стоковое фото" ? "Иллюстративное фото, не площадка компании." : drawnNote}`;
