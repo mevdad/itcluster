@@ -3,5 +3,5 @@ import type { ImageOverride } from "./image-types";
 import type { ImageId } from "./images";
 
 export const photoOverrides: Partial<Record<ImageId, ImageOverride>> = {
-
+  "img-01": {"desktop":{"src":"/images/photos/img-01-d.webp","width":1280,"height":1600},"mobile":{"src":"/images/photos/img-01-m.webp","width":900,"height":675},"alt":"Коридор дата-центра: ряды серверных стоек за сетчатыми ограждениями и синяя подсветка, уходящая вдаль","status":"стоковое фото","objectPosition":"50% 72%"},
 };
