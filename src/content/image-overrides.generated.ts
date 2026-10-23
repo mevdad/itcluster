@@ -3,5 +3,8 @@ import type { ImageOverride } from "./image-types";
 import type { ImageId } from "./images";
 
 export const photoOverrides: Partial<Record<ImageId, ImageOverride>> = {
-  "img-01": {"desktop":{"src":"/images/photos/img-01-d.webp","width":1280,"height":1600},"mobile":{"src":"/images/photos/img-01-m.webp","width":900,"height":675},"alt":"Коридор дата-центра: ряды серверных стоек за сетчатыми ограждениями и синяя подсветка, уходящая вдаль","status":"стоковое фото","objectPosition":"50% 72%"},
+  "img-01": {"desktop":{"src":"/images/photos/img-01-d.webp","width":1280,"height":1600},"mobile":{"src":"/images/photos/img-01-m.webp","width":800,"height":600},"alt":"Коридор дата-центра: ряды серверных стоек за сетчатыми ограждениями и синяя подсветка, уходящая вдаль","status":"стоковое фото","objectPosition":"50% 72%"},
+  "img-02": {"desktop":{"src":"/images/photos/img-02-d.webp","width":1000,"height":625},"mobile":{"src":"/images/photos/img-02-m.webp","width":800,"height":500},"alt":"Блейд-шасси крупным планом: ряд серверных модулей с индикаторами и один выдвинутый модуль в синей подсветке","status":"стоковое фото","objectPosition":"55% 50%"},
+  "img-03": {"desktop":{"src":"/images/photos/img-03-d.webp","width":1000,"height":625},"mobile":{"src":"/images/photos/img-03-m.webp","width":800,"height":500},"alt":"Три серверных системы в корпусах на полке в синей подсветке","status":"стоковое фото","objectPosition":"50% 55%"},
+  "img-04": {"desktop":{"src":"/images/photos/img-04-d.webp","width":1000,"height":625},"mobile":{"src":"/images/photos/img-04-m.webp","width":800,"height":500},"alt":"Оптическая коммутация: патч-корды с разъёмами LC и маркировкой, подключённые к кроссовой панели","status":"стоковое фото","objectPosition":"35% 50%"},
 };

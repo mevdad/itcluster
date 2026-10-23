@@ -18,8 +18,13 @@ const srcDir = join(root, "photos", "src");
 const outDir = join(root, "public", "images", "photos");
 const { images } = await import(join(root, "src/content/images.generated.ts"));
 
-/** Longest side in pixels for the desktop and phone files. A slot is shown at most ~700 px wide, so 2x is enough. */
-const SIZE = { desktopLong: 1600, mobileLong: 900 };
+/**
+ * Longest side in pixels for the desktop file, by how large the slot is on the page (about 2x its display size, for
+ * sharp screens). Cards are ~380 px wide, so 1000 px is plenty; only the big frames get more.
+ */
+const DESKTOP_LONG_DEFAULT = 1000;
+const DESKTOP_LONG = { "img-01": 1600, "img-06": 1400, "img-12": 1200, "img-16": 1200, "img-17": 1200 };
+const SIZE = { mobileLong: 800 };
 const QUALITY = { desktop: 76, mobile: 72 };
 const BUDGET_KB = { desktop: 220, mobile: 110 };
 const STATUSES = ["реальная фотография", "стоковое фото"];
@@ -84,7 +89,7 @@ for (const [id, item] of Object.entries(spec)) {
   console.log(`${id}  ${item.file}`);
   const dRatio = ratioOf(`${slot.desktop.width} / ${slot.desktop.height}`);
   const mRatio = ratioOf(`${slot.mobile.width} / ${slot.mobile.height}`);
-  const d = await render(input, dRatio, SIZE.desktopLong, QUALITY.desktop, item.objectPosition, join(outDir, `${id}-d.webp`));
+  const d = await render(input, dRatio, DESKTOP_LONG[id] ?? DESKTOP_LONG_DEFAULT, QUALITY.desktop, item.objectPosition, join(outDir, `${id}-d.webp`));
   const m = await render(input, mRatio, SIZE.mobileLong, QUALITY.mobile, item.mobilePosition ?? item.objectPosition, join(outDir, `${id}-m.webp`));
   totalKb += d.kb + m.kb;
   console.log(`  desktop ${d.width}×${d.height} ${d.kb} KB${d.kb > BUDGET_KB.desktop ? "  ! over budget" : ""}   phone ${m.width}×${m.height} ${m.kb} KB${m.kb > BUDGET_KB.mobile ? "  ! over budget" : ""}`);
